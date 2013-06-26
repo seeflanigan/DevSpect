@@ -5,7 +5,7 @@ class CumulativeFlow
     @databaseName = project_name
 
   findAll: (callback) ->
-    url = "http://localhost:4567/cfd"
+    url = "http://devspect-api.herokuapp.com/cfd"
 
     http.get(url, (res) ->
       body = ""
