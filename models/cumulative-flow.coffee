@@ -5,7 +5,11 @@ class CumulativeFlow
     @databaseName = project_name
 
   findAll: (callback) ->
-    url = "http://devspect-api.herokuapp.com/cfd"
+    api_base_url = process.env.DEVSPECT_API_BASE_URL || 'http://localhost:4567'
+
+    console.log api_base_url
+
+    url = "#{ api_base_url }/cfd"
 
     http.get(url, (res) ->
       body = ""
@@ -13,14 +17,8 @@ class CumulativeFlow
         body += chunk
 
       res.on "end", ->
-        data = JSON.parse(body)
 
-        records = for key, value of data
-          record = { points: value }
-          record.date = new Date(key)
-          record
-
-        callback null, records
+        callback null, body
 
     ).on "error", (e) ->
       console.log "Got error: " + e.message

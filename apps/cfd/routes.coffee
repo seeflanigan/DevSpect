@@ -29,20 +29,8 @@ routes = (app) ->
           cfds: null
           series: JSON.stringify(series)
 
-      states = {}
-      series = []
-      _points = []
-      for doc in docs
-        _date = toDateFormat doc.date
-        for state of doc.points
-          points = doc.points[state]
-          if states[state]
-            states[state].push [_date, points]
-          else
-            states[state] = [[_date, points]]
-      for name, values of states
-        series.push {name: name, data: values}
       prj = new Project project_name
+
       prj.displayName (err, display_name) ->
         if (err)
           display_name = project_name
@@ -53,6 +41,6 @@ routes = (app) ->
           stylesheet: 'cfd'
           err: err
           cfds: docs
-          series: JSON.stringify(series)
+          series: docs
 
 module.exports = routes
